@@ -5,7 +5,7 @@ import './moviegrid.scss'
 import {useState, useEffect} from 'react'
 import {useHistory, useParams} from 'react-router-dom'
 
-import pageDbs, { movieType, tvType } from '../../api/pagesDb'
+import pageDbs, { movieType, tvType, mediaType, timeWindow } from '../../api/pagesDb'
 import CartItem from '../../components/cart-item/CartItem'
 import {ButtonOutline} from '../../components/button/Button'
 import Input from '../../components/input/Input'
@@ -39,10 +39,16 @@ const MovieGrid = (props) => {
                             setItems(data.results)
                             setTotalPage(data.total_pages)
                             break;
-                        case 'tv' :
+                        case 'tv':
                             data = await pageDbs.getTvs(tvType.airing_today, params)
                             setItems(data.results)
-                            setTotalPage(data.totalPage)
+                            setTotalPage(data.total_pages)
+                            break;
+                        case 'trending':
+                            data = await pageDbs.getTrendings(mediaType.all, timeWindow.week)
+                            console.log(data)
+                            setItems(data.results)
+                            setTotalPage(data.total_pages)
                             break;
                         default:
                             throw new Error(`${props.category} is not exit`)
@@ -83,6 +89,11 @@ const MovieGrid = (props) => {
                         data = await pageDbs.getTvs(tvType.airing_today, params)
                         setItems([...items, ...data.results])
                         setPage(page + 1)
+                        break;
+                    case 'trending':
+                        data = await pageDbs.getTrendings(mediaType.all, timeWindow.week)
+                        setItems([...items, ...data.results])
+                        setTotalPage(page + 1)
                         break;
                     default:
                         throw new Error(`${props.category} is not exit`)

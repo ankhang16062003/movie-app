@@ -17,9 +17,9 @@ const Header = () => {
                 <div className="header__nav">
                     <ul>
                         <li><Link to='/'>Home</Link></li>
-                        <li><Link to={`${category.trending}`}>Trendings</Link></li>
-                        <li><Link to={`${category.movie}`}>Movies</Link></li>
-                        <li><Link to={`${category.tv}`}>Tvs</Link></li>
+                        <li><Link to={`/${category.trending}`}>Trendings</Link></li>
+                        <li><Link to={`/${category.movie}`}>Movies</Link></li>
+                        <li><Link to={`/${category.tv}`}>Tvs</Link></li>
                     </ul>
                 </div>
             </div>

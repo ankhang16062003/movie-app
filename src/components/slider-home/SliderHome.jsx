@@ -12,27 +12,22 @@ import Button, {ButtonOutline} from '../button/Button'
 import Modal, {ModalContent} from '../modal/Modal'
 
 const SliderHome = () => {
-
     SwiperCore.use([Autoplay])
 
     const [items, setItems] = useState([])
 
     useEffect(() => {
-
         const getDataSlider = async () => {
-            const params = {page: 2}
+            const params = {page: 1}
 
             try {
                 const data = await pagesDb.getMovies(movieType.popular, params)
-
-                setItems(data.results.slice(15,19))
+                setItems(data.results.slice(10,15))
             } catch (error) {
                 console.log('error')
             }
         }
-
         getDataSlider()
-
     }, [])
 
     return (
@@ -56,7 +51,6 @@ const SliderHome = () => {
                         </SwiperSlide>
                     ))}
                 </Swiper>
-
                 {
                     items.map((item, index) => (
                         <TrailerModal item = {item} key = {index}/>
@@ -69,12 +63,9 @@ const SliderHome = () => {
 }
 
 function SliderItem({item, className}) {
-
     const sliderItem = useRef(null)
     const background = apiConfig.originalImg(item.backdrop_path)
-
     const history = useHistory()
-
 
     useEffect(() => {
         sliderItem.current.style.backgroundImage = `url(${background})`
@@ -82,8 +73,6 @@ function SliderItem({item, className}) {
 
     const showTrailer = () => {
         const modal = document.querySelector(`#modal__${item.id}`)
-        
-
         const getDataVideos = async () => {
             try {
                 const videos = await pagesDb.getVideos(category.movie, item.id)
@@ -99,9 +88,7 @@ function SliderItem({item, className}) {
                 console.log(error)
             }
         } 
-
         getDataVideos()
-
         modal.classList.add('active')
     }
 
@@ -119,13 +106,12 @@ function SliderItem({item, className}) {
                     <img src={apiConfig.w500Img(item.poster_path)} alt="" />
                 </div>
             </div>
-    )
+        )   
 }
 
 function TrailerModal(props) {
-
     const item = props.item
-
+    
     const onClose = () => {
         const modal = document.querySelector(`#modal__${item.id}`)
         modal.classList.remove('active')

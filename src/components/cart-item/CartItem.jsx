@@ -17,7 +17,7 @@ const CartItem = (props) => {
 
     return (
         <>
-            <Link to = {`${props.category}/${item.id}`}>
+            <Link to = {`/${props.category}/${item.id}`}>
                 <div className="cart-item"  style={{backgroundImage: `url(${background})`}}>
                     <div className="cart-item__footer">
                         <h4>{item.name ? item.name : item.title}</h4>

@@ -4,7 +4,7 @@ import './detail.scss'
 import {useParams} from 'react-router-dom'
 import {useEffect, useState} from 'react'
 
-import pagesDb, { category } from '../../api/pagesDb'
+import pagesDb from '../../api/pagesDb'
 import apiConfig from '../../api/apiConfig'
 
 import AutherCart from '../../components/auther-cart/AutherCart'
@@ -22,10 +22,19 @@ const Detail = () => {
     const {category, id} = useParams()
 
     useEffect(() => {
+        window.scroll({
+            top: 0,
+            left: 0,
+            behavior: 'smooth'
+          })
+    })
+
+    useEffect(() => {
         const getData = async () => {
             const params = {}
             try {
-                const data = await pagesDb.getDetails(category, id, params)
+                const data = await pagesDb.getDetails(category === 'trending' ? 'movie' : category, id, params)
+                console.log(data)
                 setItem(data)
             } catch(error){
                 console.log(error)
@@ -59,17 +68,17 @@ const Detail = () => {
                         <p className="detail__info__credits__overview">{item.overview}</p>
                         <div className="detail__info__credits__authors">
                             <h5>Casts</h5>
-                            <AutherCart id = {id} category = {category} />
+                            <AutherCart id = {id} category = {category === 'trending' ? 'movie' : category} />
                         </div>
     
                     </div>
                 </div>
                 <div className="detail__videos">
-                    <VideoList id = {id} category = {category} />
+                    <VideoList id = {id} category = {category === 'trending' ? 'movie' : category} />
                 </div>
                 <div className="detail__similars">
                     <h3>Similars</h3>
-                    <SimilarItem id = {id} category = {category} />
+                    <SimilarItem id = {id} category = {category === 'trending' ? 'movie' : category} />
                 </div>
             </div>
             )}
